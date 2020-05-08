@@ -1,5 +1,8 @@
 #ifndef __ARRAY_H
 #define __ARRAY_H
+
+#define FOR_EACH(startAt, endAt) for (int i = startAt; i < endAt; i++)
+
 typedef enum
 {
   False,
