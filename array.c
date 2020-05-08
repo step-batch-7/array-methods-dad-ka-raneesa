@@ -2,10 +2,15 @@
 #include <stdlib.h>
 #include "array.h"
 
-Array *map(Array *src, Mapper mapper){
+Array *create_array(Array *src, int length){
   Array *new_array = malloc(sizeof(Array));
-  new_array->length = src->length;
-  new_array->array = malloc(sizeof(int) * new_array->length);
+  new_array->length = length;
+  new_array->array = malloc(sizeof(int) * length);
+  return new_array;
+}
+
+Array *map(Array *src, Mapper mapper){
+  Array *new_array = create_array(src, src->length);
   FOR_EACH(0, src->length)
   {
     new_array->array[i] = mapper(src->array[i]);
@@ -13,22 +18,18 @@ Array *map(Array *src, Mapper mapper){
   return new_array;
 }
 
-Array *create_copy_of_array(Array *new_array){
-  Array *copy = malloc(sizeof(Array));
-  copy->length = new_array->length;
-  copy->array = malloc(sizeof(int) * new_array->length);
-  FOR_EACH(0, new_array->length)
+Array *create_copy_of_array(Array *src){
+  Array *copy = create_array(src, src->length);
+  FOR_EACH(0, src->length)
   {
-    copy->array[i] = new_array->array[i];
+    copy->array[i] = src->array[i];
   }
   return copy;
 }
 
 
 Array *filter(Array *src, Predicate predicate){
-  Array *new_array = malloc(sizeof(Array));
-  new_array->length = 0;
-  new_array->array = malloc(sizeof(int) * src->length);
+  Array *new_array = create_array(src, 0);
   FOR_EACH(0, src->length)
   {
     if(predicate(src->array[i])){
