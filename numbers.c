@@ -82,5 +82,7 @@ int main(void){
   printf("Add all numbers with initial value : %d", result);
   NEW_LINE;
 
+  free(numbers);
+  free(empty_array);
   return 0;
 }
