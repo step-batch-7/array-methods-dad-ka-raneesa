@@ -1,10 +1,10 @@
   
 #! /bin/bash
 
-executable=$1
-
+directory=$1
+executable=$2
 mkdir -p outputs
-rm -rf *.o
-gcc -c *.c
-gcc -o outputs/$1 *.o && outputs/$1
+rm -rf $directory/*.o
+gcc -c array.c $directory/*.c
+gcc -o outputs/$executable *.o && outputs/$executable
 rm -rf *.o
