@@ -95,7 +95,7 @@ void test_map(Array *src, Array *empty_array){
   actual = map(src, &square_of_num);
   expected = create_array(5);
   FOR_EACH(0,5){
-    expected->array[i] = square_of_num(src->array[i]);
+    expected->array[i] = src->array[i] * src->array[i];
   }
   display_assertion(assert_array(actual,expected),"should get squares of a given array\n");
 }
@@ -148,15 +148,19 @@ void test_map_void(){
 
   ArrayVoid_ptr actual = map_void(void_array, &increment_by_one);
   ArrayVoid_ptr expected = create_void_array(5);
+  int initial_value = 66;
+  int *num = malloc(sizeof(int) * 5);
   FOR_EACH(0,5){
-    expected->array[i] = increment_by_one(void_array->array[i]);
+    num[i] = initial_value + i;
+    expected->array[i] = &num[i];
   }
   display_assertion(assert_void_array(actual,expected),"should increment numbers by 1");
 
   actual = map_void(void_array, &convert_to_lowercase);
   expected = create_void_array(5);
   FOR_EACH(0,5){
-    expected->array[i] = convert_to_lowercase(void_array->array[i]);
+    num[i] = num[i] + 32;
+    expected->array[i] = &num[i];
   }
   display_assertion(assert_void_array(actual,expected),"should convert to lowercase\n");
 }
