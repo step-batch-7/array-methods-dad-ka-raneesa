@@ -15,9 +15,13 @@ int FAILING_TESTS = 0;
 int square_of_num(int value);
 int add_two_numbers(int num1, int num2);
 Bool is_even(int number);
+Object increment_by_one(Object data);
+Object convert_to_lowercase(Object data);
 
 Bool assert(int num1, int num2);
+Bool void_assert(Object actual, Object expected);
 Bool assert_array(Array *array_1, Array *array_2);
+Bool assert_void_array(ArrayVoid_ptr array_1, ArrayVoid_ptr array_2);
 
 void display_assertion(Bool assertion_status, char *message);
 
@@ -26,4 +30,6 @@ void test_filter(Array *src, Array *empty_array);
 void test_reduce(Array *src, Array *empty_array);
 
 Array *create_test_array(void);
+
+void test_map_void();
 #endif
