@@ -8,6 +8,7 @@ int square_of_num(int value);
 Bool is_even(int number);
 int add_two_numbers(int num1, int num2);
 void display_array(Array *array);
+void do_array_operations(Array *numbers, Array *empty_array);
 
 int square_of_num(int value)
 {
@@ -34,16 +35,8 @@ void display_array(Array *array)
   printf("\n");
 }
 
-int main(void){
+void do_array_operations(Array *numbers, Array *empty_array){
   int result;
-  Array *empty_array = create_array(0);
-  Array *numbers = create_array(5);
-  numbers->array[0] = 1;
-  numbers->array[1] = 2;
-  numbers->array[2] = 3;
-  numbers->array[3] = 4;
-  numbers->array[4] = 5;
-
   printf("Original array: ");
   display_array(numbers);
   NEW_LINE;
@@ -76,7 +69,18 @@ int main(void){
   result = reduce(numbers, 10, &add_two_numbers);
   printf("Add all numbers with initial value : %d", result);
   NEW_LINE;
+}
 
+int main(void){
+  Array *empty_array = create_array(0);
+  Array *numbers = create_array(5);
+  numbers->array[0] = 1;
+  numbers->array[1] = 2;
+  numbers->array[2] = 3;
+  numbers->array[3] = 4;
+  numbers->array[4] = 5;
+
+  do_array_operations(numbers, empty_array);
   free(numbers);
   free(empty_array);
   return 0;
