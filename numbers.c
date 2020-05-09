@@ -36,18 +36,13 @@ void display_array(Array *array)
 
 int main(void){
   int result;
-  Array *numbers = malloc(sizeof(Array));
-  numbers->length = 5;
-  numbers->array = malloc(sizeof(int) * numbers->length);
+  Array *empty_array = create_array(0);
+  Array *numbers = create_array(5);
   numbers->array[0] = 1;
   numbers->array[1] = 2;
   numbers->array[2] = 3;
   numbers->array[3] = 4;
   numbers->array[4] = 5;
-
-  Array *empty_array = malloc(sizeof(Array));
-  empty_array->length = 0;
-  empty_array->array = malloc(sizeof(int) * 0);
 
   printf("Original array: ");
   display_array(numbers);
