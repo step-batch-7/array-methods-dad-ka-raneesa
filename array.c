@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "array.h"
 
-Array *create_array(Array *src, int length){
+Array *create_array(int length){
   Array *new_array = malloc(sizeof(Array));
   new_array->length = length;
   new_array->array = malloc(sizeof(int) * length);
@@ -10,7 +10,7 @@ Array *create_array(Array *src, int length){
 }
 
 Array *map(Array *src, Mapper mapper){
-  Array *new_array = create_array(src, src->length);
+  Array *new_array = create_array(src->length);
   FOR_EACH(0, src->length)
   {
     new_array->array[i] = mapper(src->array[i]);
@@ -19,7 +19,7 @@ Array *map(Array *src, Mapper mapper){
 }
 
 Array *create_copy_of_array(Array *src){
-  Array *copy = create_array(src, src->length);
+  Array *copy = create_array(src->length);
   FOR_EACH(0, src->length)
   {
     copy->array[i] = src->array[i];
@@ -29,7 +29,7 @@ Array *create_copy_of_array(Array *src){
 
 
 Array *filter(Array *src, Predicate predicate){
-  Array *new_array = create_array(src, 0);
+  Array *new_array = create_array(0);
   FOR_EACH(0, src->length)
   {
     if(predicate(src->array[i])){
