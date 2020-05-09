@@ -3,11 +3,8 @@
 #include "../array.h"
 #include "test.h"
 
-Bool assert(int num1, int num2){
-  if(num1 == num2){
-    return True;
-  }
-  return False;
+Bool assert(int actual, int expected){
+  return actual == expected;
 }
 
 Bool assert_array(Array *array_1, Array *array_2)

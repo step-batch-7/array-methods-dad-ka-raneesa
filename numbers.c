@@ -163,13 +163,20 @@ void do_void_array_operations(ArrayVoid_ptr void_array){
   Object result = (Object)init;
   printf("Reduce void:\n");
   result = reduce_void(void_array, init, &add_numbers);
-  printf("sum of all numbers in array : ");
+  printf("Sum of all numbers in array : ");
   display_number(result);
   NEW_LINE;
 
   *init = 100;
   result = reduce_void(void_array, init, &add_numbers);
-  printf("sum of all numbers in array and initial value : ");
+  printf("Sum of all numbers in array and initial value : ");
+  display_number(result);
+  NEW_LINE;
+
+  *init = 100;
+  ArrayVoid_ptr empty_void_array = create_void_array(0);
+  result = reduce_void(empty_void_array, init, &add_numbers);
+  printf("Sum When empty array is given: ");
   display_number(result);
   NEW_LINE;
 
