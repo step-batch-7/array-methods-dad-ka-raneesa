@@ -1,14 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "array.h"
+#include "array_void.h"
 
 #define NEW_LINE printf("\n");
 
+Object increment_by_one(Object data);
 int square_of_num(int value);
 Bool is_even(int number);
 int add_two_numbers(int num1, int num2);
 void display_array(Array *array);
 void do_array_operations(Array *numbers, Array *empty_array);
+void do_void_array_operations(ArrayVoid_ptr void_array);
+
+Object increment_by_one(Object data){
+  int *number = (int *)data;
+  *number = *number + 1;
+  return (Object)number;
+}
 
 int square_of_num(int value)
 {
@@ -71,6 +80,20 @@ void do_array_operations(Array *numbers, Array *empty_array){
   NEW_LINE;
 }
 
+void display_number(void *data)
+{
+  int *number = (int *)data;
+  printf("number: %d\n", *number);
+}
+
+void do_void_array_operations(ArrayVoid_ptr void_array){
+  printf("Void map:\n");
+  ArrayVoid_ptr new_void_array = map_void(void_array, &increment_by_one);
+  FOR_EACH(0,new_void_array->length){
+    display_number(new_void_array->array[i]);
+  }
+}
+
 int main(void){
   Array *empty_array = create_array(0);
   Array *numbers = create_array(5);
@@ -81,6 +104,15 @@ int main(void){
   numbers->array[4] = 5;
 
   do_array_operations(numbers, empty_array);
+  
+  ArrayVoid_ptr void_array = create_void_array(numbers->length);
+
+  FOR_EACH(0,5){
+    void_array->array[i] = &numbers->array[i];
+  }
+
+  do_void_array_operations(void_array);
+
   free(numbers);
   free(empty_array);
   return 0;
