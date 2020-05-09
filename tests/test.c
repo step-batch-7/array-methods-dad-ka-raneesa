@@ -51,6 +51,10 @@ Bool is_even(int number){
   return False;
 }
 
+int add_two_numbers(int num1, int num2){
+  return num1 + num2;
+}
+
 void test_map(Array *src, Array *empty_array){
   PRINT_STRING("Map:\n");
   Array *actual = map(empty_array, &square_of_num);
@@ -75,7 +79,22 @@ void test_filter(Array *src, Array *empty_array){
   expected = create_array(2);
   expected->array[0] = 2;
   expected->array[1] = 4;
-  display_assertion(assert_array(actual,expected),"should get evens in a given array");
+  display_assertion(assert_array(actual,expected),"should get evens in a given array\n");
+}
+
+void test_reduce(Array *src, Array *empty_array){
+  PRINT_STRING("Reduce:\n");
+  int actual = reduce(src, 0, &add_two_numbers);
+  int expected = 15;
+  display_assertion(assert(actual,expected),"should get sum of all numbers in array");
+
+  actual = reduce(src, 10, &add_two_numbers);
+  expected = 25;
+  display_assertion(assert(actual,expected),"should get sum of all numbers in array and initial value");
+
+  actual = reduce(empty_array, 10, &add_two_numbers);
+  expected = 10;
+  display_assertion(assert(actual,expected),"should get initial value when array has no elements");
 }
 
 int main(void){
@@ -89,6 +108,7 @@ int main(void){
   Array *empty_array = create_array(0);
   test_map(numbers, empty_array);
   test_filter(numbers, empty_array);
+  test_reduce(numbers, empty_array);
 
   printf(GREEN "\n%d passing" RESET, PASSING_TESTS);
   printf(RED "\n%d failing\n" RESET, FAILING_TESTS);
