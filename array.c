@@ -29,7 +29,11 @@ Array *create_copy_of_array(Array *src){
 
 
 Array *filter(Array *src, Predicate predicate){
-  Array *new_array = create_array(0);
+  if(src->length == 0){
+    return create_array(0);
+  }
+  Array *new_array = create_array(src->length);
+  new_array->length = 0;
   FOR_EACH(0, src->length)
   {
     if(predicate(src->array[i])){

@@ -9,6 +9,7 @@ Object increment_by_one(Object data);
 Object convert_to_lowercase(Object data);
 int square_of_num(int value);
 Bool is_even(int number);
+Bool is_vowel(Object data);
 int add_two_numbers(int num1, int num2);
 void display_array(Array *array);
 void display_number(void *data);
@@ -30,6 +31,14 @@ Object convert_to_lowercase(Object data){
   return (Object)number;
 }
 
+Bool is_vowel(Object data){
+  char c = *(char *)data;
+  int lowercase, uppercase;
+  lowercase = (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+  uppercase = (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+  return (lowercase || uppercase);
+}
+
 int square_of_num(int value)
 {
   return value * value;
@@ -40,6 +49,11 @@ Bool is_even(int number){
     return True;
   }
   return False;
+}
+
+Bool check_even(Object data){
+  int *number = (int *)data;
+  return is_even(*number);
 }
 
 int add_two_numbers(int num1, int num2){
@@ -114,6 +128,22 @@ void do_void_array_operations(ArrayVoid_ptr void_array){
 
   new_void_array = map_void(void_array, &convert_to_lowercase);
   printf("Convert to lower case : ");
+  FOR_EACH(0,new_void_array->length){
+    display_char(new_void_array->array[i]);
+  }
+  NEW_LINE;
+  NEW_LINE;
+
+  printf("Void filter:\n");
+  new_void_array = filter_void(void_array, &check_even);
+  printf("Increment numbers by one : ");
+  FOR_EACH(0,new_void_array->length){
+    display_number(new_void_array->array[i]);
+  }
+  NEW_LINE;
+
+  new_void_array = filter_void(void_array, &is_vowel);
+  printf("Vowels : ");
   FOR_EACH(0,new_void_array->length){
     display_char(new_void_array->array[i]);
   }
