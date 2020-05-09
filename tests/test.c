@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../array.h"
+#include "../array_void.h"
 #include "test.h"
 
 Bool assert(int actual, int expected){
@@ -74,19 +75,19 @@ void test_filter(Array *src, Array *empty_array){
 
   actual = filter(src, &is_even);
   expected = create_array(2);
-  expected->array[0] = 2;
-  expected->array[1] = 4;
+  expected->array[0] = 66;
+  expected->array[1] = 68;
   display_assertion(assert_array(actual,expected),"should get evens in a given array\n");
 }
 
 void test_reduce(Array *src, Array *empty_array){
   PRINT_STRING("Reduce:\n");
   int actual = reduce(src, 0, &add_two_numbers);
-  int expected = 15;
+  int expected = 335;
   display_assertion(assert(actual,expected),"should get sum of all numbers in array");
 
   actual = reduce(src, 10, &add_two_numbers);
-  expected = 25;
+  expected = 345;
   display_assertion(assert(actual,expected),"should get sum of all numbers in array and initial value");
 
   actual = reduce(empty_array, 10, &add_two_numbers);
@@ -94,13 +95,18 @@ void test_reduce(Array *src, Array *empty_array){
   display_assertion(assert(actual,expected),"should get initial value when array has no elements");
 }
 
-int main(void){
+Array *create_test_array(void){
   Array *numbers = create_array(5);
-  numbers->array[0] = 1;
-  numbers->array[1] = 2;
-  numbers->array[2] = 3;
-  numbers->array[3] = 4;
-  numbers->array[4] = 5;
+  numbers->array[0] = 65;
+  numbers->array[1] = 66;
+  numbers->array[2] = 67;
+  numbers->array[3] = 68;
+  numbers->array[4] = 69;
+  return numbers;
+}
+
+int main(void){
+  Array *numbers = create_test_array();
 
   Array *empty_array = create_array(0);
   test_map(numbers, empty_array);
