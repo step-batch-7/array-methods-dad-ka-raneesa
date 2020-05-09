@@ -6,16 +6,27 @@
 #define NEW_LINE printf("\n");
 
 Object increment_by_one(Object data);
+Object convert_to_lowercase(Object data);
 int square_of_num(int value);
 Bool is_even(int number);
 int add_two_numbers(int num1, int num2);
 void display_array(Array *array);
+void display_number(void *data);
+void display_char(void *data);
 void do_array_operations(Array *numbers, Array *empty_array);
 void do_void_array_operations(ArrayVoid_ptr void_array);
 
 Object increment_by_one(Object data){
   int *number = (int *)data;
   *number = *number + 1;
+  return (Object)number;
+}
+
+Object convert_to_lowercase(Object data){
+  int *number = (int *)data;
+  if(*number>=65 && *number<=90){
+    *number = *number + 32;
+   }
   return (Object)number;
 }
 
@@ -83,30 +94,44 @@ void do_array_operations(Array *numbers, Array *empty_array){
 void display_number(void *data)
 {
   int *number = (int *)data;
-  printf("number: %d\n", *number);
+  printf("%d ", *number);
+}
+
+void display_char(void *data)
+{
+  char *letter = (char *)data;
+  printf("%c ", *letter);
 }
 
 void do_void_array_operations(ArrayVoid_ptr void_array){
   printf("Void map:\n");
   ArrayVoid_ptr new_void_array = map_void(void_array, &increment_by_one);
+  printf("Increment numbers by one : ");
   FOR_EACH(0,new_void_array->length){
     display_number(new_void_array->array[i]);
   }
+  NEW_LINE;
+
+  new_void_array = map_void(void_array, &convert_to_lowercase);
+  printf("Convert to lower case : ");
+  FOR_EACH(0,new_void_array->length){
+    display_char(new_void_array->array[i]);
+  }
+  NEW_LINE;
 }
 
 int main(void){
   Array *empty_array = create_array(0);
   Array *numbers = create_array(5);
-  numbers->array[0] = 1;
-  numbers->array[1] = 2;
-  numbers->array[2] = 3;
-  numbers->array[3] = 4;
-  numbers->array[4] = 5;
-
+  numbers->array[0] = 65;
+  numbers->array[1] = 66;
+  numbers->array[2] = 67;
+  numbers->array[3] = 68;
+  numbers->array[4] = 69;
   do_array_operations(numbers, empty_array);
-  
-  ArrayVoid_ptr void_array = create_void_array(numbers->length);
+  NEW_LINE;
 
+  ArrayVoid_ptr void_array = create_void_array(5);
   FOR_EACH(0,5){
     void_array->array[i] = &numbers->array[i];
   }
