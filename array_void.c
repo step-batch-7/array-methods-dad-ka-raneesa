@@ -42,3 +42,11 @@ ArrayVoid_ptr filter_void(ArrayVoid_ptr src, PredicateVoid predicate){
   }
   return create_copy_of_void_array(new_array);
 }
+
+Object reduce_void(ArrayVoid_ptr src, Object init, ReducerVoid reducer){
+  Object result = (Object)init;
+  FOR_EACH(0, src->length){
+    result = reducer(src->array[i], result);
+  }
+  return result;
+}

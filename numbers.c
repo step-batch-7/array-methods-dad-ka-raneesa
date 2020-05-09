@@ -7,6 +7,7 @@
 
 Object increment_by_one(Object data);
 Object convert_to_lowercase(Object data);
+Object add_numbers(Object num1, Object num2);
 int square_of_num(int value);
 Bool is_even(int number);
 Bool is_vowel(Object data);
@@ -58,6 +59,13 @@ Bool check_even(Object data){
 
 int add_two_numbers(int num1, int num2){
   return num1 + num2;
+}
+
+Object add_numbers(Object data1, Object data2){
+  int *num1 = (int *)data1;
+  int *num2 = (int *)data2;
+  *num2 = *num1 + *num2;
+  return (Object)num2;
 }
 
 void display_array(Array *array)
@@ -118,7 +126,7 @@ void display_char(void *data)
 }
 
 void do_void_array_operations(ArrayVoid_ptr void_array){
-  printf("Void map:\n");
+  printf("Map void:\n");
   ArrayVoid_ptr new_void_array = map_void(void_array, &increment_by_one);
   printf("Increment numbers by one : ");
   FOR_EACH(0,new_void_array->length){
@@ -134,7 +142,7 @@ void do_void_array_operations(ArrayVoid_ptr void_array){
   NEW_LINE;
   NEW_LINE;
 
-  printf("Void filter:\n");
+  printf("Filter void:\n");
   new_void_array = filter_void(void_array, &check_even);
   printf("Increment numbers by one : ");
   FOR_EACH(0,new_void_array->length){
@@ -148,6 +156,24 @@ void do_void_array_operations(ArrayVoid_ptr void_array){
     display_char(new_void_array->array[i]);
   }
   NEW_LINE;
+  NEW_LINE;
+
+  int *init = malloc(sizeof(int));
+  *init = 0;
+  Object result = (Object)init;
+  printf("Reduce void:\n");
+  result = reduce_void(void_array, init, &add_numbers);
+  printf("sum of all numbers in array : ");
+  display_number(result);
+  NEW_LINE;
+
+  *init = 100;
+  result = reduce_void(void_array, init, &add_numbers);
+  printf("sum of all numbers in array and initial value : ");
+  display_number(result);
+  NEW_LINE;
+
+  free(init);
 }
 
 int main(void){
