@@ -36,7 +36,7 @@ void display_assertion(Bool assertion_status, char *message)
     printf(FAIL);
     FAILING_TESTS++;
   }
-  printf("%s\n", message);
+  PRINT_STRING(message);
 }
 
 int square_of_num(int value)
@@ -44,7 +44,15 @@ int square_of_num(int value)
   return value * value;
 }
 
+Bool is_even(int number){
+  if(number % 2 == 0){
+    return True;
+  }
+  return False;
+}
+
 void test_map(Array *src, Array *empty_array){
+  PRINT_STRING("Map:\n");
   Array *actual = map(empty_array, &square_of_num);
   Array *expected = create_array(0);
   display_assertion(assert_array(actual,expected),"should get empty array for empty array given");
@@ -54,7 +62,20 @@ void test_map(Array *src, Array *empty_array){
   FOR_EACH(0,5){
     expected->array[i] = square_of_num(src->array[i]);
   }
-  display_assertion(assert_array(actual,expected),"should get squares of a given array");
+  display_assertion(assert_array(actual,expected),"should get squares of a given array\n");
+}
+
+void test_filter(Array *src, Array *empty_array){
+  PRINT_STRING("Filter:\n");
+  Array *actual = filter(empty_array, &is_even);
+  Array *expected = create_array(0);
+  display_assertion(assert_array(actual,expected),"should get empty array for empty array given");
+
+  actual = filter(src, &is_even);
+  expected = create_array(2);
+  expected->array[0] = 2;
+  expected->array[1] = 4;
+  display_assertion(assert_array(actual,expected),"should get evens in a given array");
 }
 
 int main(void){
@@ -67,6 +88,7 @@ int main(void){
 
   Array *empty_array = create_array(0);
   test_map(numbers, empty_array);
+  test_filter(numbers, empty_array);
 
   printf(GREEN "\n%d passing" RESET, PASSING_TESTS);
   printf(RED "\n%d failing\n" RESET, FAILING_TESTS);

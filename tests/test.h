@@ -13,6 +13,7 @@ int PASSING_TESTS = 0;
 int FAILING_TESTS = 0;
 
 int square_of_num(int value);
+Bool is_even(int number);
 Bool assert(int num1, int num2);
 Bool assert_array(Array *array_1, Array *array_2);
 void display_assertion(Bool assertion_status, char *message);
