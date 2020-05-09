@@ -15,6 +15,8 @@ int FAILING_TESTS = 0;
 int square_of_num(int value);
 int add_two_numbers(int num1, int num2);
 Bool is_even(int number);
+Bool check_even(Object data);
+Bool is_vowel(Object data);
 Object increment_by_one(Object data);
 Object convert_to_lowercase(Object data);
 
@@ -32,4 +34,5 @@ void test_reduce(Array *src, Array *empty_array);
 Array *create_test_array(void);
 
 void test_map_void();
+void test_filter_void();
 #endif

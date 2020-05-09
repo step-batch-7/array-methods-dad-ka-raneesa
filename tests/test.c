@@ -82,6 +82,19 @@ Bool is_even(int number){
   return False;
 }
 
+Bool check_even(Object data){
+  int *number = (int *)data;
+  return is_even(*number);
+}
+
+Bool is_vowel(Object data){
+  char c = *(char *)data;
+  int lowercase, uppercase;
+  lowercase = (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+  uppercase = (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+  return (lowercase || uppercase);
+}
+
 int add_two_numbers(int num1, int num2){
   return num1 + num2;
 }
@@ -157,12 +170,33 @@ void test_map_void(){
   display_assertion(assert_void_array(actual,expected),"should increment numbers by 1");
 
   actual = map_void(void_array, &convert_to_lowercase);
-  expected = create_void_array(5);
   FOR_EACH(0,5){
     num[i] = num[i] + 32;
-    expected->array[i] = &num[i];
   }
-  display_assertion(assert_void_array(actual,expected),"should convert to lowercase\n");
+  display_assertion(assert_void_array(actual,expected),"should convert all to lowercase\n");
+}
+
+void test_filter_void(){
+  PRINT_STRING("Filter void:\n");
+  Array *numbers = create_test_array();
+  ArrayVoid_ptr void_array = create_void_array(5);
+  FOR_EACH(0,5){
+    void_array->array[i] = &numbers->array[i];
+  }
+  ArrayVoid_ptr actual = filter_void(void_array, &check_even);
+  ArrayVoid_ptr expected = create_void_array(2);
+  int *num = malloc(sizeof(int) * 2);
+  num[0] = 66;
+  num[1] = 68;
+  int *numbers_array[2] = {&num[0], &num[1]};
+  expected->array = (Object *)numbers_array;
+  display_assertion(assert_void_array(actual,expected),"should filter all even numbers");
+
+  actual = filter_void(void_array, &is_vowel);
+  int *result = (Object)actual->array[0];
+  num[0] = 65;
+  num[1] = 69;
+  display_assertion(assert_void_array(actual,expected),"should filter all vowels");
 }
 
 int main(void){
@@ -174,6 +208,7 @@ int main(void){
   test_reduce(numbers, empty_array);
 
   test_map_void();
+  test_filter_void();
 
   printf(GREEN "\n%d passing" RESET, PASSING_TESTS);
   printf(RED "\n%d failing\n" RESET, FAILING_TESTS);
