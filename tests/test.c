@@ -7,7 +7,7 @@ Bool assert(int actual, int expected){
   return actual == expected;
 }
 
-Bool void_assert(Object actual, Object expected){
+Bool assert_void(Object actual, Object expected){
   int *num1 = (int *)actual;
   int *num2 = (int *)expected;
   return *num1 == *num2;
@@ -36,7 +36,7 @@ Bool assert_void_array(ArrayVoid_ptr array_1, ArrayVoid_ptr array_2)
   Bool assertion_status = True;
   for (int i = 0; i < array_1->length; i++)
   {
-    assertion_status &= void_assert(array_1->array[i], array_2->array[i]);
+    assertion_status &= assert_void(array_1->array[i], array_2->array[i]);
   }
   return assertion_status;
 }
@@ -99,6 +99,14 @@ int add_two_numbers(int num1, int num2){
   return num1 + num2;
 }
 
+Object add_numbers(Object data1, Object data2){
+  int *num1 = (int *)data1;
+  int *num2 = (int *)data2;
+  *num2 = *num1 + *num2;
+  return (Object)num2;
+}
+
+
 void test_map(Array *src, Array *empty_array){
   PRINT_STRING("Map:\n");
   Array *actual = map(empty_array, &square_of_num);
@@ -151,13 +159,19 @@ Array *create_test_array(void){
   return numbers;
 }
 
-void test_map_void(){
-  PRINT_STRING("Map void:\n");
+ArrayVoid_ptr initialization_of_void_array(void){
   Array *numbers = create_test_array();
   ArrayVoid_ptr void_array = create_void_array(5);
   FOR_EACH(0,5){
     void_array->array[i] = &numbers->array[i];
   }
+  return void_array;
+}
+
+
+void test_map_void(){
+  PRINT_STRING("Map void:\n");
+  ArrayVoid_ptr void_array = initialization_of_void_array();
 
   ArrayVoid_ptr actual = map_void(void_array, &increment_by_one);
   ArrayVoid_ptr expected = create_void_array(5);
@@ -178,11 +192,8 @@ void test_map_void(){
 
 void test_filter_void(){
   PRINT_STRING("Filter void:\n");
-  Array *numbers = create_test_array();
-  ArrayVoid_ptr void_array = create_void_array(5);
-  FOR_EACH(0,5){
-    void_array->array[i] = &numbers->array[i];
-  }
+  ArrayVoid_ptr void_array = initialization_of_void_array();
+
   ArrayVoid_ptr actual = filter_void(void_array, &check_even);
   ArrayVoid_ptr expected = create_void_array(2);
   int *num = malloc(sizeof(int) * 2);
@@ -196,7 +207,31 @@ void test_filter_void(){
   int *result = (Object)actual->array[0];
   num[0] = 65;
   num[1] = 69;
-  display_assertion(assert_void_array(actual,expected),"should filter all vowels");
+  display_assertion(assert_void_array(actual,expected),"should filter all vowels\n");
+}
+
+void test_reduce_void(){
+  ArrayVoid_ptr void_array = initialization_of_void_array();
+  ArrayVoid_ptr empty_array = create_void_array(0);
+  PRINT_STRING("Reduce void:\n");
+  int *init = malloc(sizeof(int));
+  *init = 0;
+  Object actual = (Object)init;
+  actual = reduce_void(void_array, init, &add_numbers);
+  int *result = malloc(sizeof(int));
+  *result = 335;
+  Object expected = (Object)result;
+  display_assertion(assert_void(actual,expected),"should get sum of all numbers in array");
+
+  *init = 10;
+  actual = reduce_void(void_array, init, &add_numbers);
+  *result = 345;
+  display_assertion(assert_void(actual,expected),"should get sum of all numbers in array and initial value");
+
+  *init = 10;
+  actual = reduce_void(empty_array, init, &add_numbers);
+  *result = 10;
+  display_assertion(assert_void(actual,expected),"should get initial value when array has no elements\n");
 }
 
 int main(void){
@@ -209,6 +244,7 @@ int main(void){
 
   test_map_void();
   test_filter_void();
+  test_reduce_void();
 
   printf(GREEN "\n%d passing" RESET, PASSING_TESTS);
   printf(RED "\n%d failing\n" RESET, FAILING_TESTS);

@@ -19,9 +19,10 @@ Bool check_even(Object data);
 Bool is_vowel(Object data);
 Object increment_by_one(Object data);
 Object convert_to_lowercase(Object data);
+Object add_numbers(Object data1, Object data2);
 
 Bool assert(int num1, int num2);
-Bool void_assert(Object actual, Object expected);
+Bool assert_void(Object actual, Object expected);
 Bool assert_array(Array *array_1, Array *array_2);
 Bool assert_void_array(ArrayVoid_ptr array_1, ArrayVoid_ptr array_2);
 
@@ -32,7 +33,9 @@ void test_filter(Array *src, Array *empty_array);
 void test_reduce(Array *src, Array *empty_array);
 
 Array *create_test_array(void);
+ArrayVoid_ptr initialization_of_void_array(void);
 
 void test_map_void();
 void test_filter_void();
+void test_reduce_void();
 #endif
